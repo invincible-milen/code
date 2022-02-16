@@ -91,6 +91,7 @@ while True:
     else:
         break
 
+m.pop(-1)
 
 #print
 for i in m:
