@@ -20,7 +20,7 @@ m.append(row)
 initial=[]
 end=[]
 frontier=[]
-for i in range(0,10):
+for i in range(0,len(m)):
     if "A" in m[i]:
         a=m[i].index("A")
         initial.append(i)
