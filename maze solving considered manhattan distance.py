@@ -62,9 +62,7 @@ while True:
     #check below
     if (frontier[0][0]+1,frontier[0][1]) not in prev:
         if m[(frontier[0][0])+1][frontier[0][1]] == " " or m[(frontier[0][0])+1][frontier[0][1]] == "B":
-            if (frontier[0][0]+1,frontier[0][1]) in prev:
-                print("trueeee")
-                a=(frontier[0][0])+1
+            a=(frontier[0][0])+1
             b=frontier[0][1]
             pos=[a,b]
             frontier.append(pos)
@@ -84,7 +82,7 @@ while True:
     #check left
     if (frontier[0][0],frontier[0][1]-1) not in prev:
         if m[frontier[0][0]][(frontier[0][1])-1] == " " or m[frontier[0][0]][(frontier[0][1])-1] == "B" :
-            a=(frontier[0][0])-1
+            a=(frontier[0][0])
             b=(frontier[0][1])-1
             pos=[a,b]
             frontier.append(pos)
