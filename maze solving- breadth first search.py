@@ -1,14 +1,17 @@
 #maze
-m=[['#','#','#','#','#','#','#','#','B','#'],
-['#','#','#','#',' ','#','#',' ',' ','#'],
-['#','#',' ',' ',' ','#','#',' ','#','#'],
-['#','#',' ','#','#','#','#',' ','#','#'],
-['#','#',' ',' ',' ',' ',' ',' ','#','#'],
-['#','#',' ','#','#','#','#','#','#','#'],
-['#','#',' ','#','#','#','#','#','#','#'],
-['#','#',' ',' ',' ',' ',' ',' ',' ','#'],
-['#','#',' ','#','#','#','#','#','#','#'],
-['#','#','A','#','#','#','#','#','#','#']]
+m=[
+    ['#','#','#','#','#','#','#','#','B','#'],
+    ['#','#','#','#',' ','#','#',' ',' ','#'],
+    ['#','#',' ',' ',' ','#','#',' ','#','#'],
+    ['#','#',' ','#','#','#','#',' ','#','#'],
+    ['#','#',' ',' ',' ',' ',' ',' ','#','#'],
+    ['#','#',' ','#','#','#','#','#','#','#'],
+    ['#','#',' ','#','#','#','#','#','#','#'],
+    ['#','#',' ',' ',' ',' ',' ',' ',' ','#'],
+    ['#','#',' ','#','#','#','#','#','#','#'],
+    ['#','#','A','#','#','#','#','#','#','#']
+]
+
 
 #add another row
 row=[]
@@ -17,77 +20,74 @@ for i in range(0,len(m[0])):
 m.append(row)
 
 #setting up the initial states
-initial=[]
-end=[]
+initial=()
+end=()
 frontier=[]
 for i in range(0,len(m)):
     if "A" in m[i]:
         a=m[i].index("A")
-        initial.append(i)
-        initial.append(a)
+        initial=(i,a)
     if "B" in m[i]:
         b=m[i].index("B")
-        end.append(i)
-        end.append(b)
+        end=(i,b)
 
 frontier.append(initial)
 
-prev={}
+path={}
 
 #explore
 while True:
     #check above
-    if (frontier[0][0]-1,frontier[0][1]) not in prev:
-        if m[(frontier[0][0]-1)][frontier[0][1]] == " " or m[(frontier[0][0])-1][frontier[0][1]] == "B":
-            a=(frontier[0][0])-1
-            b=frontier[0][1]
-            pos=[a,b]
+    current=frontier[0]
+    if (current[0]-1,current[1]) not in path:
+        if m[current[0]-1][current[1]] == " " or m[(current[0])-1][current[1]] == "B":
+            a=(current[0])-1
+            b=current[1]
+            pos=(a,b)
             frontier.append(pos)
-            prev[tuple(pos)]=frontier[0]
+            path[pos]=current
             if pos==end:
                 break
     #check below
-    if (frontier[0][0]+1,frontier[0][1]) not in prev:
-        if m[(frontier[0][0])+1][frontier[0][1]] == " " or m[(frontier[0][0])+1][frontier[0][1]] == "B":
-            a=(frontier[0][0])+1
-            b=frontier[0][1]
-            pos=[a,b]
+    if (current[0]+1,current[1]) not in path:
+        if m[current[0]+1][current[1]] == " " or m[current[0]+1][current[1]] == "B":
+            a=(current[0])+1
+            b=current[1]
+            pos=(a,b)
             frontier.append(pos)
-            prev[tuple(pos)]=frontier[0]
+            path[pos]=current
             if pos==end:
                 break
     #check right
-    if (frontier[0][0],frontier[0][1]+1) not in prev:
-        if m[frontier[0][0]][(frontier[0][1])+1] == " " or m[frontier[0][0]][(frontier[0][1])+1] == "B":
-            a=frontier[0][0]
-            b=(frontier[0][1])+1
-            pos=[a,b]
+    if (current[0],current[1]+1) not in path:
+        if m[current[0]][(current[1])+1] == " " or m[current[0]][(current[1])+1] == "B":
+            a=current[0]
+            b=(current[1])+1
+            pos=(a,b)
             frontier.append(pos)
-            prev[tuple(pos)]=frontier[0]
+            path[pos]=current
             if pos==end:
                 break
     #check left
-    if (frontier[0][0],frontier[0][1]-1) not in prev:
-        if m[frontier[0][0]][(frontier[0][1])-1] == " " or m[frontier[0][0]][(frontier[0][1])-1] == "B" :
-            a=(frontier[0][0])
-            b=(frontier[0][1])-1
-            pos=[a,b]
+    if (current[0],current[1]-1) not in path:
+        if m[current[0]][(current[1])-1] == " " or m[current[0]][(current[1])-1] == "B" :
+            a=(current[0])
+            b=(current[1])-1
+            pos=(a,b)
             frontier.append(pos)
-            prev[tuple(pos)]=frontier[0]
+            path[pos]=current
             if pos==end:
                 break
     frontier.pop(0)
 
 
 #backtrack
-frontier=[]
-frontier.append(end)
+current=end
 while True:
-    pos=prev[tuple(frontier[0])]
+    pos=path[current]
     if pos != initial:
         m[pos[0]][pos[1]]="."
-        frontier.pop(0)
-        frontier.append(pos)
+        current=pos
     else:
         break
 
