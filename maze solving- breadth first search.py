@@ -12,7 +12,6 @@ m=[
     ['#','#','A','#','#','#','#','#','#','#']
 ]
 
-
 #add another row
 row=[]
 for i in range(0,len(m[0])):
